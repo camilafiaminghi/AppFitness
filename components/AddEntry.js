@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import { getMetricMetaInfo, timeToString } from './../utils/helpers'
+import AlreadyLoggedView from './AlreadyLoggedView'
 import DateHeader from './DateHeader'
 import AppSlider from './AppSlider'
 import Steppers from './Steppers'
@@ -64,8 +65,20 @@ export default class AddEntry extends Component {
 		// Clear local notification
 	}
 
+	reset = () => {
+		const key = timeToString()
+
+		// Upadate Redux
+		// Navigate to home
+		// Update DB
+	}
+
 	render() {
 		const metaInfo = getMetricMetaInfo()
+
+		if (this.props.alreadyLogged) {
+			return (<AlreadyLoggedView reset={this.reset} />)
+		}
 
 		return (
 			<View>
