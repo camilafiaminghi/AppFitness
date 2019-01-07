@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import { getMetricMetaInfo, timeToString } from './../utils/helpers'
 import DateHeader from './DateHeader'
-import Slider from './Slider'
+import AppSlider from './AppSlider'
 import Steppers from './Steppers'
 import SubmitBtn from './SubmitBtn'
 
@@ -77,9 +77,8 @@ export default class AddEntry extends Component {
 					return (
 						<View key={key}>
 							{ getIcon() }
-							<Text>{ value }</Text>
-							{ type
-								? <Slider
+							{ type === 'slider'
+								? <AppSlider
 										value={value}
 										onChange={(value) => this.slide(key, value)}
 										{...rest} />
