@@ -76,7 +76,7 @@ export default class AddEntry extends Component {
 	render() {
 		const metaInfo = getMetricMetaInfo()
 
-		if (this.props.alreadyLogged) {
+		if (true) {
 			return (<AlreadyLoggedView reset={this.reset} />)
 		}
 
