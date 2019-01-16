@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
-import { getMetricMetaInfo, timeToString } from './../utils/helpers'
+import { View, ScrollView, Text, AsyncStorage } from 'react-native'
+import { connect } from 'react-redux'
+
 import AlreadyLoggedView from './AlreadyLoggedView'
 import DateHeader from './DateHeader'
 import AppSlider from './AppSlider'
 import Steppers from './Steppers'
 import SubmitBtn from './SubmitBtn'
 
-export default class AddEntry extends Component {
+import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers'
+import { submitEntry, removeEntry } from '../utils/api'
+import { addEntry } from '../actions'
+
+class AddEntry extends Component {
 	state = {
 		run: 0,
 		bike: 0,
@@ -51,6 +56,9 @@ export default class AddEntry extends Component {
 		const entry = this.state
 
 		// Upadate Redux
+		this.props.dispatch(addEntry({
+			[key]: entry
+		}));
 
 		this.setState(() => ({
 			run: 0,
@@ -62,6 +70,7 @@ export default class AddEntry extends Component {
 
 		// Navigate to home
 		// Save to DB
+		submitEntry({ entry, key })
 		// Clear local notification
 	}
 
@@ -69,19 +78,25 @@ export default class AddEntry extends Component {
 		const key = timeToString()
 
 		// Upadate Redux
+		this.props.dispatch(addEntry({
+			[key]: getDailyReminderValue()
+		}))
+
 		// Navigate to home
 		// Update DB
+		removeEntry(key)
 	}
 
 	render() {
 		const metaInfo = getMetricMetaInfo()
+		const { alreadyLogged } = this.props
 
-		if (this.props.alreadyLogged) {
+		if ( alreadyLogged ) {
 			return (<AlreadyLoggedView reset={this.reset} />)
 		}
 
 		return (
-			<View>
+			<ScrollView>
 				<DateHeader date={(new Date()).toLocaleDateString()} />
 
 				{Object.keys(metaInfo).map((key) => {
@@ -106,7 +121,17 @@ export default class AddEntry extends Component {
 				})}
 
 				<SubmitBtn onPress={this.submit} />
-			</View>
+			</ScrollView>
 		)
 	}
 }
+
+const mapStateToProps = (state) => {
+	const key = timeToString()
+
+	return {
+		alreadyLogged: state[key] && typeof state[key].today === 'undefined'
+	}
+}
+
+export default connect(mapStateToProps)(AddEntry)
