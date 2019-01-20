@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, ScrollView, Text, AsyncStorage, Platform, StyleSheet } from 'react-native'
+import { View, ScrollView, Text, AsyncStorage, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 
 import AlreadyLoggedView from './AlreadyLoggedView'
