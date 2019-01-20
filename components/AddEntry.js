@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, ScrollView, Text, AsyncStorage } from 'react-native'
+import { View, ScrollView, Text, AsyncStorage, Platform, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 
 import AlreadyLoggedView from './AlreadyLoggedView'
@@ -10,6 +10,7 @@ import SubmitBtn from './SubmitBtn'
 
 import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers'
 import { submitEntry, removeEntry } from '../utils/api'
+import { white } from '../utils/colors'
 import { addEntry } from '../actions'
 
 class AddEntry extends Component {
@@ -96,14 +97,16 @@ class AddEntry extends Component {
 		}
 
 		return (
-			<ScrollView>
+			<View style={styles.container}>
 				<DateHeader date={(new Date()).toLocaleDateString()} />
 
 				{Object.keys(metaInfo).map((key) => {
 					const { getIcon, type, ...rest } = metaInfo[key]
 					const value = this.state[key]
 					return (
-						<View key={key}>
+						<View
+							key={key}
+							style={styles.row}>
 							{ getIcon() }
 							{ type === 'slider'
 								? <AppSlider
@@ -121,10 +124,23 @@ class AddEntry extends Component {
 				})}
 
 				<SubmitBtn onPress={this.submit} />
-			</ScrollView>
+			</View>
 		)
 	}
 }
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		padding: 20,
+		backgroundColor: white
+	},
+	row: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center'
+	}
+})
 
 const mapStateToProps = (state) => {
 	const key = timeToString()
