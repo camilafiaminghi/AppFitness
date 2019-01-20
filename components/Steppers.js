@@ -1,23 +1,64 @@
 import React from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Platform, StyleSheet } from 'react-native'
 import { FontAwesome, Entypo } from '@expo/vector-icons'
+import { white, gray, purple } from '../utils/colors'
+
+const styles = StyleSheet.create({
+	row: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center'
+	},
+	iosBtn: {
+		backgroundColor: white,
+		borderColor: purple,
+		borderWidth: 1,
+		borderRadius: 3,
+		padding: 5,
+		paddingLeft: 25,
+		paddingRight: 25
+	},
+	androidBtn: {
+		margin: 5,
+		padding: 10,
+		backgroundColor: purple,
+		borderRadius: 2
+	},
+	btnRight: {
+		borderTopRightRadius: 0,
+		borderBottomRightRadius: 0
+	},
+	btnLeft: {
+		borderTopLeftRadius: 0,
+		borderBottomLeftRadius: 0
+	},
+	metricCounter: {
+		width: 85,
+		justifyContent: 'center',
+		alignItems: 'center'
+	}
+})
 
 export default function Steppers ({ max, unit, step, value, onIncrement, onDecrement }) {
 	return (
-		<View>
-			<View>
-				<TouchableOpacity onPress={onDecrement}>
-					<FontAwesome name="minus" size={30} color={'black'} />
+		<View style={[styles.row, {alignContent: 'space-between'}]}>
+			<View style={{flexDirection: 'row'}}>
+				<TouchableOpacity
+					onPress={onDecrement}
+					style={Platform.OS === 'ios' ? [styles.iosBtn, styles.btnRight] : [styles.androidBtn, styles.btnRight]}>
+					<FontAwesome name="minus" size={30} color={Platform.OS === 'ios' ? purple : white} />
 				</TouchableOpacity>
 
-				<TouchableOpacity onPress={onIncrement}>
-					<FontAwesome name="plus" size={30} color={'black'} />
+				<TouchableOpacity
+					onPress={onIncrement}
+					style={Platform.OS === 'ios' ? [styles.iosBtn, styles.btnLeft] : [styles.androidBtn, styles.btnLeft]}>
+					<FontAwesome name="plus" size={30} color={Platform.OS === 'ios' ? purple : white} />
 				</TouchableOpacity>
 			</View>
 
-			<View>
-				<Text>{value}</Text>
-				<Text>{unit}</Text>
+			<View style={styles.metricCounter}>
+				<Text style={{fontSize: 24, textAlign: 'center'}}>{value}</Text>
+				<Text style={{fontSize: 18, color: gray}}>{unit}</Text>
 			</View>
 		</View>
 	)
