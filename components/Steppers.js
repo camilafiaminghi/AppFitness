@@ -1,12 +1,14 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, Platform, StyleSheet } from 'react-native'
 import { FontAwesome, Entypo } from '@expo/vector-icons'
+import MetricCounter from './MetricCounter'
 import { white, gray, purple } from '../utils/colors'
 
 const styles = StyleSheet.create({
 	row: {
 		flex: 1,
 		flexDirection: 'row',
+		justifyContent: 'space-between',
 		alignItems: 'center'
 	},
 	iosBtn: {
@@ -31,17 +33,12 @@ const styles = StyleSheet.create({
 	btnLeft: {
 		borderTopLeftRadius: 0,
 		borderBottomLeftRadius: 0
-	},
-	metricCounter: {
-		width: 85,
-		justifyContent: 'center',
-		alignItems: 'center'
 	}
 })
 
 export default function Steppers ({ max, unit, step, value, onIncrement, onDecrement }) {
 	return (
-		<View style={[styles.row, {alignContent: 'space-between'}]}>
+		<View style={styles.row}>
 			<View style={{flexDirection: 'row'}}>
 				<TouchableOpacity
 					onPress={onDecrement}
@@ -56,10 +53,7 @@ export default function Steppers ({ max, unit, step, value, onIncrement, onDecre
 				</TouchableOpacity>
 			</View>
 
-			<View style={styles.metricCounter}>
-				<Text style={{fontSize: 24, textAlign: 'center'}}>{value}</Text>
-				<Text style={{fontSize: 18, color: gray}}>{unit}</Text>
-			</View>
+			<MetricCounter value={value} unit={unit} />
 		</View>
 	)
 }
