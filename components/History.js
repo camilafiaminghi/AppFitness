@@ -75,6 +75,14 @@ class History extends Component {
 	}
 }
 
+const mapStateToProps = (entries) => {
+	return {
+		entries
+	}
+}
+
+export default connect(mapStateToProps)(History)
+
 const styles = StyleSheet.create({
 	item: {
 		backgroundColor: white,
@@ -98,11 +106,3 @@ const styles = StyleSheet.create({
 		paddingBottom: 20
 	}
 })
-
-const mapStateToProps = (entries) => {
-	return {
-		entries
-	}
-}
-
-export default connect(mapStateToProps)(History)

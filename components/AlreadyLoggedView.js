@@ -3,16 +3,6 @@ import { View, Text, Platform, StyleSheet } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import TextButton from './TextButton'
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		marginRight: 30,
-		marginLeft: 30
-	}
-})
-
 export default function AlreadyLoggedView ({ reset }) {
 	return (
 		<View style={styles.container}>
@@ -26,3 +16,13 @@ export default function AlreadyLoggedView ({ reset }) {
 		</View>
 	)
 }
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginRight: 30,
+		marginLeft: 30
+	}
+})
