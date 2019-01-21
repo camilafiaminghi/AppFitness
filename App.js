@@ -5,6 +5,7 @@ import { View, Platform } from 'react-native';
 import { createBottomTabNavigator, createMaterialTopTabNavigator, createAppContainer } from 'react-navigation'
 import AddEntry from './components/AddEntry'
 import History from './components/History'
+import AppStatusBar from './components/AppStatusBar'
 import reducer from './reducers'
 import { purple, white } from './utils/colors'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
@@ -53,7 +54,7 @@ export default class App extends Component {
     return (
     	<Provider store={createStore(reducer)}>
 	      <View style={{flex: 1}}>
-	      	<View style={{height: 20}} />
+	      	<AppStatusBar backgroundColor={purple} barStyle="light-content" />
 	      	<TabsContainer />
 	      </View>
 	    </Provider>
