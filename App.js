@@ -7,6 +7,7 @@ import AddEntry from './components/AddEntry'
 import History from './components/History'
 import AppStatusBar from './components/AppStatusBar'
 import EntryDetail from './components/EntryDetail'
+import Live from './components/Live'
 import reducer from './reducers'
 import { purple, white } from './utils/colors'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
@@ -24,8 +25,15 @@ const Tabs = createMaterialTopTabNavigator({
 	AddEntry: {
 		screen: AddEntry,
 		navigationOptions: {
-			tabBarLabel: 'AddEntry',
+			tabBarLabel: 'Add Entry',
 			tabBarIcons: ({ tintColor }) => <FontAwesome name="plus-square" size={30} color={tintColor} />
+		}
+	},
+	Live: {
+		screen: Live,
+		navigationOptions: {
+			tabBarLabel: 'Live',
+			tabBarIcons: ({ tintColor }) => <FontAwesome name="plus-speedometer" size={30} color={tintColor} />
 		}
 	}
 }, {
