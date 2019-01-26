@@ -43,30 +43,37 @@ export default class Live extends Component {
 
 	setLocation = () => {
 		Location.watchPositionAsync({
-			enableHighAccurancy: true,
+			enableHighAccuracy: true,
 			timeInterval: 1,
-			dsitanceinterval: 1,
+			distanceInterval: 1,
 		}, ({ coords }) => {
-			const newDirection = calculateDirection(coords.heading)
-			const { direction } = this.state
+			this.setState({
+				coords,
+				status: 'granted',
+			})
+		})
+
+		Location.watchHeadingAsync(({ trueHeading }) => {
+			const newDirection = calculateDirection(trueHeading)
+			const { direction, bounceValue } = this.state
 
 			if (newDirection !== direction) {
 				Animated.sequence([
 					Animated.timing(bounceValue, {duration: 200, toValue: 1.04}),
 					Animated.spring(bounceValue, {toValue: 1, friction: 4})
-				])
+				]).start()
 			}
 
 			this.setState({
-				coords,
 				status: 'granted',
-				direction: newDirection
+				direction: newDirection,
 			})
 		})
+
 	}
 
 	render(){
-		const { coords, status, direction } = this.state
+		const { coords, status, direction, bounceValue } = this.state
 
 		if (status === null) {
 			return <ActivityIndicator style={{marginTop: 30}} />
@@ -102,12 +109,12 @@ export default class Live extends Component {
 
 		return(
 			<View style={styles.container}>
-        <Text>Live</Text>
         <View style={styles.directionContainer}>
           <Text style={styles.header}>You're heading</Text>
-          <Text style={styles.direction}>
+          <Animated.Text
+          	style={[styles.direction, {transform: [{scale: bounceValue}]}]}>
             {direction}
-          </Text>
+          </Animated.Text>
         </View>
         <View style={styles.metricContainer}>
           <View style={styles.metric}>
@@ -115,7 +122,7 @@ export default class Live extends Component {
               Altitude
             </Text>
             <Text style={[styles.subHeader, {color: white}]}>
-              {Math.round(coords.altitude * 3.2808)} feet
+							{Math.round(coords.altitude * 3.2808)} feet
             </Text>
           </View>
           <View style={styles.metric}>
@@ -165,7 +172,7 @@ const styles = StyleSheet.create({
   },
   direction: {
     color: purple,
-    fontSize: 120,
+    fontSize: 60,
     textAlign: 'center',
   },
   metricContainer: {

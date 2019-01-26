@@ -14,7 +14,7 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons'
 
 
 // const Tabs = createBottomTabNavigator({
-const Tabs = createMaterialTopTabNavigator({
+const Tabs = {
 	History: {
 		screen: History,
 		navigationOptions: {
@@ -36,7 +36,8 @@ const Tabs = createMaterialTopTabNavigator({
 			tabBarIcons: ({ tintColor }) => <FontAwesome name="plus-speedometer" size={30} color={tintColor} />
 		}
 	}
-}, {
+}
+const TabNavigationOptions = {
 	navigationOptions: {
 		header: null
 	},
@@ -54,9 +55,10 @@ const Tabs = createMaterialTopTabNavigator({
 			shadowOpacity: 1
 		}
 	}
-})
-
-const TabsContainer = createAppContainer(Tabs)
+}
+const TabsAndroid = createMaterialTopTabNavigator(Tabs, TabNavigationOptions)
+const TabsIos = createBottomTabNavigator(Tabs, TabNavigationOptions)
+const TabsContainer = (Platform.OS === 'ios') ? createAppContainer(TabsIos) : createAppContainer(TabsAndroid)
 
 const Stack = createStackNavigator({
   Home: {
