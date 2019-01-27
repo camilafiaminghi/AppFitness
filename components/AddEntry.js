@@ -7,7 +7,7 @@ import DateHeader from './DateHeader'
 import AppSlider from './AppSlider'
 import Steppers from './Steppers'
 import SubmitBtn from './SubmitBtn'
-import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers'
+import { getMetricMetaInfo, timeToString, getDailyReminderValue, clearLocalNotification, setLocalNotification } from '../utils/helpers'
 import { submitEntry, removeEntry } from '../utils/api'
 import { white } from '../utils/colors'
 import { addEntry } from '../actions'
@@ -69,9 +69,9 @@ class AddEntry extends Component {
 		}))
 
 		this.toHome()
-		// Save to DB
 		submitEntry({ entry, key })
-		// Clear local notification
+		clearLocalNotification()
+			.then(setLocalNotification)
 	}
 
 	reset = () => {

@@ -11,7 +11,7 @@ import Live from './components/Live'
 import reducer from './reducers'
 import { purple, white } from './utils/colors'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
-
+import { setLocalNotification } from './utils/helpers'
 
 // const Tabs = createBottomTabNavigator({
 const Tabs = {
@@ -81,6 +81,10 @@ const Stack = createStackNavigator({
 const StackContainer = createAppContainer(Stack)
 
 export default class App extends Component {
+	componentDidMount() {
+		setLocalNotification()
+	}
+
 	render() {
     return (
     	<Provider store={createStore(reducer)}>
